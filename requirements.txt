@@ -5,4 +5,3 @@ scikit_learn==1.2.1
 statsmodels==0.14.0
 streamlit==1.24.1
 tensorflow==2.11.0
-tensorflow_intel==2.11.0
