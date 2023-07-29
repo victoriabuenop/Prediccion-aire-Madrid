@@ -158,7 +158,6 @@ with layout:
              ax.text(pred['DATE'][index], pred['Prediccion'][index]+1, pred['Prediccion'][index], size=14)
         
         ax.set_xticklabels(real['DATE'], rotation=70, size=13)
-        ax.set_yticklabels(real['NO2'], size=13)
         ax.set_ylabel('NO₂ (µg/m³)', size=13)
         ax.legend(fontsize=14)
         st.pyplot(fig)
