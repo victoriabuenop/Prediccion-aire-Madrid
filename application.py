@@ -93,7 +93,6 @@ with layout:
 
     sel_col.text("")
     sel_col.text("")
-    sel_col.text("")
     station = sel_col.selectbox('Elija una estación de control:', options=['Paseo de la Castellana','Plaza del Carmen','Retiro'], index=0)
     sel_col.text("")
 
@@ -113,6 +112,7 @@ with layout:
              n_dias += meses[m]
         n_dias += day
         
+        sel_col.image('./data/indice_calidad.png', caption='Indice de calidad del aire para el Dióxido de Nitrógeno(NO₂) en µg/m³')
         st.write('Predicción de los próximos 5 días para la estación ' +str(station) + ':')
         predictions = []
 
@@ -128,11 +128,8 @@ with layout:
             prediction_inv = y_scaler.inverse_transform(prediction)
 
             predictions.append(round(prediction_inv[0][0], 1))
-
-            #sel_col.write('Día vista ' +  str(i) + ': ' + str(round(prediction_inv[0][0], 2)) +' µg/m³') 
-            #sel_col.write('(El valor real fue: ' + str(expected_value[0][0]) + ' µg/m³)')
         
-
+        
         data = pd.read_csv(archivos[station]["aire"])
         real = data[n_dias-14: n_dias+5]
         real = real.reset_index()
@@ -161,4 +158,3 @@ with layout:
         ax.set_ylabel('NO₂ (µg/m³)', size=13)
         ax.legend(fontsize=14)
         st.pyplot(fig)
-        
