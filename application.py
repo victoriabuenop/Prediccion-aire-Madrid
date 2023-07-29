@@ -127,7 +127,7 @@ with layout:
             prediction = model.predict(input_data)
             prediction_inv = y_scaler.inverse_transform(prediction)
 
-            predictions.append(round(prediction_inv[0][0], 1))
+            predictions.append(round(prediction_inv[0][0]))
         
         
         data = pd.read_csv(archivos[station]["aire"])
@@ -141,20 +141,26 @@ with layout:
         pred = pred.round({'Prediccion':1})
        
         fig, ax = plt.subplots(figsize=(15, 8))
+
+        ax.fill_between(real['DATE'], 0, 100, alpha=0.1, color='lightgreen')
+        ax.fill_between(real['DATE'], 101, 200, alpha=0.1, color='navajowhite')
+        ax.fill_between(real['DATE'], 201, 250, alpha=0.1, color='lightcoral')
+
         ax.plot(real['DATE'], real['NO2'], lw= 3, alpha=1, color='dodgerblue', label='Valores reales')
         ax.plot(pred['DATE'], pred['Prediccion'], lw= 3, alpha=1, color='darkorange', label='Predicción')
         ax.axvline(x=pred['DATE'][0], ls=':', lw=3, alpha=0.8, color='grey')
-        ax.fill_between(pred['DATE'], real['NO2'][13:], pred['Prediccion'], alpha=0.2, color='darkorange')
+        ax.fill_between(pred['DATE'], real['NO2'][13:], pred['Prediccion'], alpha=0.4, color='darkorange')
         ax.scatter(pred['DATE'], pred['Prediccion'], s=200, lw=3, color='darkorange', marker='o')
         ax.scatter(real['DATE'], real['NO2'], s=200, lw=3, color='dodgerblue', marker='o', fc='w', zorder=5)
 
         for index in range(len(real['DATE'])):
-             ax.text(real['DATE'][index], real['NO2'][index]+1, real['NO2'][index], size=14)
+             ax.text(real['DATE'][index], real['NO2'][index]+6, real['NO2'][index], size=14)
         
         for index in range(1, len(pred['DATE'])):
-             ax.text(pred['DATE'][index], pred['Prediccion'][index]+1, pred['Prediccion'][index], size=14)
+             ax.text(pred['DATE'][index], pred['Prediccion'][index]+6, pred['Prediccion'][index], size=14)
         
         ax.set_xticklabels(real['DATE'], rotation=70, size=13)
+        ax.set_ylim(0, 250)
         ax.set_ylabel('NO₂ (µg/m³)', size=13)
         ax.legend(fontsize=14)
         st.pyplot(fig)
